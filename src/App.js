@@ -29,8 +29,8 @@ function App() {
     let k = count + 1;
     setCount(k);
   }
-  function resetCount(){
-    setCount(1)
+  function resetCount() {
+    setCount(1);
   }
   function addToFavs(val) {
     setFavs([...fav, val]);

@@ -27,11 +27,11 @@ export default function Beers(props) {
     } else sub = data;
     return sub;
   }
-  function setfilled(i) {
+  async function setfilled(i) {
     let newD = [...props.beers];
     newD[i].isFav = !newD[i].isFav;
-    props.editBeersData(newD);
-    props.addToFavs(newD[i]);
+    await props.editBeersData(newD);
+    await props.addToFavs(newD[i]);
   }
   function deleteItem(i) {
     let newD = [...props.beers];
@@ -56,7 +56,7 @@ export default function Beers(props) {
         <Card style={cardStyle}>
           {data.isFav ? (
             <StarFilled
-            className="starIcon"
+              className="starIcon"
               style={{ color: "yellow", fontSize: "20px" }}
               onClick={(e) => setfilled(index)}
             />
