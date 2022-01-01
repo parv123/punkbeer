@@ -13,44 +13,56 @@ import {
   Routes,
 } from "react-router-dom";
 
-
 function App() {
   const [beers, setBeers] = useState([]);
   const [fav, setFavs] = useState([]);
-  const [count, setCount]= useState(1);
-  const [search, setSearch]= useState(false);
-  function updateSearch(){
-    setSearch(!search)
+  const [count, setCount] = useState(1);
+  const [search, setSearch] = useState(false);
+  const [val, setVal] = useState("");
+  function setSearchValue(value) {
+    setVal(value);
   }
-  function updateCount(){
+  function updateSearch(bool) {
+    setSearch(bool);
+  }
+  function updateCount() {
     let k = count + 1;
-    setCount(k)
+    setCount(k);
+  }
+  function resetCount(){
+    setCount(1)
   }
   function addToFavs(val) {
     setFavs([...fav, val]);
-    sessionStorage.setItem("fav_beer",JSON.stringify(fav));
+    sessionStorage.setItem("fav_beer", JSON.stringify(fav));
   }
   function editBeersData(data) {
-    
     setBeers(data);
   }
   function setBeersData(data) {
-    let newD = beers
-    newD = [...newD,...data]
+    let newD = beers;
+    newD = [...newD, ...data];
     setBeers(newD);
   }
-  useEffect(()=>{
+  useEffect(() => {
     sessionStorage.clear();
-  },[])
+  }, []);
   return (
     <Router>
       <Routes>
         <Route
           path="/"
           element={
-            <div >
+            <div>
               <Header />
-              <Search setBeersData={setBeersData} updateSearch={updateSearch} editBeersData={editBeersData}/>
+              <Search
+                setBeersData={setBeersData}
+                updateSearch={updateSearch}
+                editBeersData={editBeersData}
+                value={val}
+                setSearchValue={setSearchValue}
+                resetCount={resetCount}
+              />
               <Beers
                 beers={beers}
                 setBeersData={setBeersData}
@@ -58,16 +70,14 @@ function App() {
                 updateCount={updateCount}
                 editBeersData={editBeersData}
                 updateSearch={updateSearch}
-                search = {search}
-                count ={count}
+                search={search}
+                count={count}
+                value={val}
               />
             </div>
           }
         ></Route>
-        <Route
-          path="/favourites"
-          element={<Favourites  />}
-        ></Route>
+        <Route path="/favourites" element={<Favourites />}></Route>
       </Routes>
     </Router>
   );

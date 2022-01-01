@@ -1,23 +1,26 @@
 import { PropertySafetyFilled } from "@ant-design/icons/lib/icons";
 import { useState } from "react";
 import { fetchSearchResult } from "../api/punkbeerApi";
+import "../css/style.css";
 function Search(props) {
-  const [val, setSearch] = useState("");
-  function handleSearch(e) {
-    setSearch(e.target.value);
-  }
-  function searchBeers() {
 
-  let result = fetchSearchResult(1,val)
-  props.editBeerData(result);
-  props.updateSearch();
+  
+  async function searchBeers() {
+      if(props.value){
+  props.resetCount();
+  let result = await fetchSearchResult(props.value);
+  await props.editBeersData(result);
+  await props.updateSearch(true)
+      }
+      else
+props.updateSearch(false)
   }
   return (
     <div>
       <input
-        value={val}
-        onChange={handleSearch}
-        placeholder="type here to search beers.."
+        value={props.value}
+        onChange={e=> props.setSearchValue(e.target.value)}
+        placeholder="search for beer.."
       ></input>
       <button onClick={searchBeers}>Search</button>
     </div>
