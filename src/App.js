@@ -18,7 +18,10 @@ function App() {
   const [beers, setBeers] = useState([]);
   const [fav, setFavs] = useState([]);
   const [count, setCount]= useState(1);
-  
+  const [search, setSearch]= useState(false);
+  function updateSearch(){
+    setSearch(!search)
+  }
   function updateCount(){
     let k = count + 1;
     setCount(k)
@@ -47,13 +50,15 @@ function App() {
           element={
             <div >
               <Header />
-              <Search setBeersData={setBeersData} />
+              <Search setBeersData={setBeersData} updateSearch={updateSearch} editBeersData={editBeersData}/>
               <Beers
                 beers={beers}
                 setBeersData={setBeersData}
                 addToFavs={addToFavs}
                 updateCount={updateCount}
                 editBeersData={editBeersData}
+                updateSearch={updateSearch}
+                search = {search}
                 count ={count}
               />
             </div>

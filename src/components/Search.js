@@ -1,21 +1,21 @@
 import { PropertySafetyFilled } from "@ant-design/icons/lib/icons";
 import { useState } from "react";
+import { fetchSearchResult } from "../api/punkbeerApi";
 function Search(props) {
-  const [search, setSearch] = useState("");
+  const [val, setSearch] = useState("");
   function handleSearch(e) {
     setSearch(e.target.value);
   }
   function searchBeers() {
-    fetch(`https://api.punkapi.com/v2/beers?beer_name=${search}`)
-    .then(response => response.json())
-    .then(out=>{
-        props.setBeersData(out);
-    })
+
+  let result = fetchSearchResult(1,val)
+  props.editBeerData(result);
+  props.updateSearch();
   }
   return (
     <div>
       <input
-        value={search}
+        value={val}
         onChange={handleSearch}
         placeholder="type here to search beers.."
       ></input>

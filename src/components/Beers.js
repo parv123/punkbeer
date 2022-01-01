@@ -8,6 +8,7 @@ import {
   DeleteFilled,
   EditFilled,
 } from "@ant-design/icons/lib/icons";
+import { fetchDefaultResult } from "../api/punkbeerApi";
 export default function Beers(props) {
   var count = 1;
   const cardStyle = {
@@ -79,27 +80,33 @@ export default function Beers(props) {
     ));
     return card_list;
   }
-  useEffect(() => {
-    fetch(`https://api.punkapi.com/v2/beers`)
-      .then((response) => response.json())
-      .then((out) => {
-        for (let i = 0; i < out.length; i++) {
-          out[i]["isFav"] = false;
-        }
-        props.setBeersData(out);
-      });
+  useEffect(async () => {
+    let result = await fetchDefaultResult(count)
+     result.then( props.setBeersData(result))
+   
   }, []);
   function searchBeers(count) {
-    fetch(`https://api.punkapi.com/v2/beers?page=${count}&per_page=20`)
-      .then((response) => response.json())
-      .then((out) => {
-        props.setBeersData(out);
-      });
+    let result = fetchDefaultResult(count,)
+     
+    result.then( props.setBeersData(result))
+  }
+  function defaultBeers(count) {
+      let result = fetchDefaultResult(count)
+     
+      result.then( props.setBeersData(result))
+      
   }
   function setMore() {
-    props.updateCount();
-    console.log(props.count);
-    searchBeers(props.count);
+      if(props.search){
+        props.updateCount();
+        console.log(props.count);
+        searchBeers(props.count);
+      }else{
+        props.updateCount();
+        console.log(props.count);
+        defaultBeers(props.count); 
+      }
+   
   }
   return (
     <InfiniteScroll
